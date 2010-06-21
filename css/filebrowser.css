@@ -1,0 +1,241 @@
+div.side-box {
+background:transparent url(../img/side-box.png) no-repeat scroll 0 0;
+margin-bottom:20px;
+padding-top:9px;
+width:200px;
+}
+
+div.side-box-inner {
+background:transparent url(../img/side-box.png) no-repeat scroll 0 bottom;
+font-size:12px;
+padding:0 15px 5px;
+}
+
+div.side-box-inner ul{
+list-style-image:url(../img/c-sep-l.gif);
+margin-left:15px;
+margin-bottom: 10px;
+}
+
+div.side-box-inner ul li {
+font-family: verdana;
+font-size: 11px;
+color:#0464BB;
+margin-bottom: 3px;
+}
+
+div.side-box-inner h5 {
+background:transparent none repeat scroll 0 0 !important;
+background-color:#F1F1F1;
+color:#789030;
+font-family:"Trebuchet MS",Tahoma,arial,sans-serif;
+font-size:11px;
+font-weight:bold;
+line-height:20px;
+padding:3px;
+text-transform:uppercase;
+}
+
+.icon-close {
+  background-position:0px 0px !important;
+  background-image: url(/extjs/resources/images/default/panel/tool-sprites.gif) !important;
+  background-repeat: no-repeat !important;
+  background-color: transparent;
+  height:15px !important;
+  width:15px !important;
+}
+
+.icon-file-png, .icon-file-gif { 
+background-image:url(../img/picture.png) !important;
+background-repeat:no-repeat;
+}
+
+.icon-file-csv, .icon-file-xls { 
+background-image:url(../img/page_white_excel.png) !important;
+background-repeat:no-repeat;
+}
+
+.icon-file-exe { 
+background-image:url(../img/page_white_gear.png) !important;
+background-repeat:no-repeat;
+}
+
+.icon-file-txt { 
+background-image:url(../img/page_white_text.png) !important;
+background-repeat:no-repeat;
+}
+
+.icon-file-zip, .icon-file-rar, .icon-file-tar, .icon-file-tgz, .icon-file-gz { 
+background-image:url(../img/page_white_compressed.png) !important;
+background-repeat:no-repeat;
+}
+
+.icon-wrench-orange { 
+background-image:url(../img/wrench_orange.png) !important;
+}
+
+.icon-computer-link { 
+background-image:url(../img/computer_link.png) !important;
+}
+
+.icon-upload { 
+background-image:url(../img/up.png) !important;
+background-position:0px 1px !important;
+}
+
+.icon-folder-add {
+background-image:url(../img/folder_add.png) !important;
+}
+
+.icon-collapse-all {
+background-image:url(../img/collapse-all.gif) !important;
+}
+
+.icon-expand-all {
+background-image:url(../img/expand-all.gif) !important;
+}
+
+.icon-open-blank {
+background-image:url(../img/application_cascade.png) !important;
+}
+
+.icon-open-download {
+background-image:url(../img/application_put.png) !important;
+}
+
+.icon-open {
+background-image:url(../img/application_go.png) !important;
+}
+
+.icon-open-popup {
+background-image:url(../img/application_double.png) !important;
+}
+
+.icon-open-self {
+background-image:url(../img/application.png) !important;
+}
+
+.icon-refresh {
+background-image:url(../img/arrow_refresh.png) !important;
+}
+
+.icon-pencil {
+background-image:url(../img/pencil.png) !important;
+}
+
+.icon-cross {
+background-image:url(../img/cross.png) !important;
+}
+
+.icon-upload {
+background-image:url(../img/up.png) !important;
+}
+
+.icon-plus {
+background-image:url(../img/add.png) !important;
+}
+
+.icon-folder-explore {
+background-image:url(../img/folder_explore.png) !important;
+}
+
+.icon-up {
+background-image:url(../img/folder_up.png) !important;
+}
+
+.icon-previous {
+background-image:url(../img/resultset_previous.png) !important;
+}
+
+.icon-next {
+background-image:url(../img/resultset_next.png) !important;
+}
+
+.icon-view {
+background-image:url(../img/application_view_tile.png) !important;
+}
+
+.icon-list {
+background-image:url(../img/application_view_list.png) !important;
+}
+
+.icon-row-file {
+padding-left:20px;
+background-position:0 -2px;
+background-image:url(../img/leaf.gif) !important;
+background-repeat:no-repeat;
+}
+
+.icon-row-folder {
+padding-left:20px;
+background-position:0 -2px;
+background-image:url(../img/folder.gif) !important;
+background-repeat:no-repeat;
+}
+
+.x-tree-node-collapsed .x-tree-node-icon, .row-folder {
+background-image:url(../img/folder-16.png)  ;
+}
+
+.x-tree-node-expanded .x-tree-node-icon {
+background-image:url(../img/folder-open-16.png) ;
+}
+
+.x-tree-node-leaf .x-tree-node-icon, .row-file {
+background-image:url(../img/file-16.png);
+}
+
+.browser-view .x-splitbar-h {
+  border-left:1px solid #8DB2E3;
+  border-right:1px solid #8DB2E3;
+  background-color:#DFE8F6;
+}
+
+.x-layout-split-south, .x-layout-cmini-south {
+  border-top:1px solid #8DB2E3;
+  background-color:#DFE8F6;
+}
+
+.x-layout-split-south {
+  border-bottom:1px solid #8DB2E3;
+}
+
+.thumb .folder {
+background-image:url(../img/folder-64.png) !important;
+background-position: 7px 0px;
+}
+
+.thumb .file {
+background-image:url(../img/file-48.png) !important;
+background-position: 14px 9px;
+}
+
+.thumb .item {
+width:80px;
+height:64px;
+background-repeat: no-repeat;
+background-color: #FFFFFF;
+}
+
+.row-file, .row-folder {
+  padding-left:20px;
+  padding-top:3px;
+  background-repeat: no-repeat;
+}
+
+.image-preview div {
+  padding:0px !important;
+  cursor: default !important;
+}
+
+.image-preview .x-toolbar {
+  padding:1px !important;
+  background:#D0DEF0 url(/extjs/resources/images/default/toolbar/bg.gif) repeat-x scroll left top;
+  filter : alpha(opacity=80);
+  -moz-opacity : 0.8;
+  opacity : 0.8;
+}
+
+.image-preview .x-toolbar div {
+  border:0px;
+}
