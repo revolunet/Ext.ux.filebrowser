@@ -3,7 +3,7 @@ Ext.ux.dataViewBrowser = Ext.extend(Ext.DataView, {
     ,multiSelect:true
     ,overClass:'x-view-over'
     ,itemSelector:'div.thumb-wrap'
-    ,readonly:false
+    ,readOnly:false
     // ,plugins:[
         // new Ext.DataView.DragSelector()
         // ,new Ext.DataView.LabelEditor({dataIndex:'id'})
@@ -30,7 +30,7 @@ Ext.ux.dataViewBrowser = Ext.extend(Ext.DataView, {
         }}
         ,contextmenu:{fn:function(dataView, index, node, e) {
             this.select(node);
-            if (!this.readonly)
+            if (!this.readOnly)
                 this.fireEvent("elementContextMenu", node.id, e);
             }}
     }
@@ -40,7 +40,7 @@ Ext.ux.dataViewBrowser = Ext.extend(Ext.DataView, {
         this.DragSelect = new Ext.DataView.DragSelector();
         this.LabelEdit = new Ext.DataView.LabelEditor({
             dataIndex:'id'
-	    ,readonly:this.readonly
+	    ,readOnly:this.readOnly
 	    ,listeners:{
                 complete:{scope:this, fn:function(ed, value) {
                     var oldName = ed.activeRecord.data.text;

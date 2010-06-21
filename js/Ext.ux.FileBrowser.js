@@ -16,7 +16,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
 
     layout:"border"
     ,cls:"browser-view"
-    ,readonly:false
+    ,readOnly:false
     ,data:[]
     ,url_view:""
     ,historyCurrentId:false
@@ -27,6 +27,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
     ,statusBar:false
     ,fileTreePanel:false
     ,enableUpload:false
+
     ,initComponent:function() {
 
         /*
@@ -34,143 +35,144 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
         */
         this.fileTreePanel = new Ext.ux.FileTreePanel({
             autoScroll:true
-	    ,readOnly:this.readonly
-	    ,region:"center"
+            ,readOnly:this.readOnly
+            ,region:"center"
             ,border:false
             ,method:'post'
             ,rootPath:''
             ,url:this.url
             ,rootText:this.rootText
-	    ,cmdParams:{root:this.root}
+            ,cmdParams:{root:this.root}
             ,listeners:{
                 click:{scope:this, fn:this.treePanelClick}
-		,dblclick:{scope:this, fn:this.treePanelDbLClick}
-		,startdrag:{scope:this, fn:this.startDragNode || false}
+                ,dblclick:{scope:this, fn:this.treePanelDbLClick}
+                ,startdrag:{scope:this, fn:this.startDragNode || false}
                 ,load:{scope:this, fn:this.treePanelLoad}
-		,download:{scope:this, fn:this.downloadItem}
-		,rename:{scope:this, fn:this.renameItem}
-		,newdir:{scope:this, fn:function(treepanel, node){
-		  this.load(node.parentNode);
-		}}
-		,render:{scope:this, fn:function(){
-		    this.fileTreePanel.loader.baseParams.root = this.root;
-		    this.fileTreePanel.setReadOnly(this.readonly);
-		    this.enableUploadSystem();
-		}}
+                ,download:{scope:this, fn:this.downloadItem}
+                ,rename:{scope:this, fn:this.renameItem}
+                ,newdir:{scope:this, fn:function(treepanel, node){
+                  this.load(node.parentNode);
+                }}
+                ,render:{scope:this, fn:function(){
+                    this.fileTreePanel.loader.baseParams.root = this.root;
+                    this.fileTreePanel.setReadOnly(this.readOnly);
+                    this.enableUploadSystem();
+                }}
             }
-	    ,onDblClick:function(node, e) {
-		return false;
-	    }
+    	    ,onDblClick:function(node, e) {
+	        	return false;
+	        }
         });
 
-	this.fileTreePanel.loader.on("beforeload", function() {
-	    this.fileTreePanel.loader.baseParams.root = this.root;
-	    return true;
-	},this);
+        this.fileTreePanel.loader.on("beforeload", function() {
+            this.fileTreePanel.loader.baseParams.root = this.root;
+            return true;
+        },this);
 
-	/**************************************************
-	 * ************************************************
-	 * STATUS BAR SETTINGS
-	 * ************************************************
-	 **************************************************/
+        /**************************************************
+         * ************************************************
+         * STATUS BAR SETTINGS
+         * ************************************************
+         **************************************************/
 
         if (this.statusBar) {
-	  this.StatusBarSize = new Ext.Toolbar.TextItem('Size:');
-	  console.log("StatusBarSize", this.StatusBarSize);
-	  this.StatusSpacer = new Ext.Toolbar.Spacer();
+          this.StatusBarSize = new Ext.Toolbar.TextItem('Size:');
+          console.log("StatusBarSize", this.StatusBarSize);
+          this.StatusSpacer = new Ext.Toolbar.Spacer();
           this.StatusBarDetails = new Ext.Toolbar.TextItem('Details: ');
 
-	  if (typeof this.statusBar == "object") {
-	    this.bbar = this.statusBar;
-	    this.statusBar.insertCmpStatus(this.StatusBarSize, this, true);
-	    this.statusBar.insertCmpStatus(this.StatusSpacer, this);
-	    this.statusBar.insertCmpStatus(this.StatusBarDetails, this, true);
-	  } else {
-	    this.bbar = new Ext.ux.StatusBar({
-	      items:[
-		this.StatusBarDetails
-		," "
-		,this.StatusBarSize
-	      ]
-	    });
-	  }
+          if (typeof this.statusBar == "object") {
+            this.bbar = this.statusBar;
+            this.statusBar.insertCmpStatus(this.StatusBarSize, this, true);
+            this.statusBar.insertCmpStatus(this.StatusSpacer, this);
+            this.statusBar.insertCmpStatus(this.StatusBarDetails, this, true);
+          } else {
+            this.bbar = new Ext.ux.StatusBar({
+                items:[
+                    this.StatusBarDetails
+                    ," "
+                    ,this.StatusBarSize
+                ]
+            });
+          }
 
         }
 
-	/**************************************************
-	 * ************************************************
-	 * END OF STATUS BAR SETTINGS
-	 * ************************************************
-	 **************************************************/
+        /**************************************************
+         * ************************************************
+         * END OF STATUS BAR SETTINGS
+         * ************************************************
+         **************************************************/
 
 
-	/**************************************************
-	 * ************************************************
-	 * UPLOAD SETTINGS
-	 * ************************************************
-	 **************************************************/
+        /**************************************************
+         * ************************************************
+         * UPLOAD SETTINGS
+         * ************************************************
+         **************************************************/
 
-	if (!this.readonly && this.enableUpload) {
-	  this.queuePanel = new Ext.Panel({
-	    region:"south"
-	    ,layout:"fit"
-	    ,border:false
-	    ,height:100
-	    ,collapsed:true
-	    ,collapseMode:"mini"
-//	    ,autoScroll:true
-	    ,split:true
-	  });
+        if (!this.readOnly && this.enableUpload) {
 
-	  var panelConfig = [{
-	    layout:"border"
-	    ,border:false
-	    ,items:[
-	      this.fileTreePanel
-	      ,this.queuePanel
-	    ]
-	  }];
+            this.queuePanel = new Ext.Panel({
+                region:"south"
+                ,layout:"fit"
+                ,border:false
+                ,height:100
+                ,collapsed:true
+                ,collapseMode:"mini"
+                //	    ,autoScroll:true
+                ,split:true
+            });
 
-	  this.uploadMgr = new Ext.ux.upload.Uploader({
-            url:this.swfuploaderConfig.url
-	    ,swfUrl:"/apps/extplugins/static/js/Ext.ux.upload/examples/swf/swfupload.swf"
-	    ,maxFiles:10
-	    ,maxFileSize:100000
-	    ,allowedFileTypes:"*.*"
-	  });
+            var panelConfig = [{
+                layout:"border"
+                ,border:false
+                ,items:[
+                  this.fileTreePanel
+                  ,this.queuePanel
+                ]
+            }];
 
-	  this.uploadMgr.setLogFrame(this.queuePanel);
+            this.uploadMgr = new Ext.ux.upload.Uploader({
+                url:this.swfuploaderConfig.url
+                ,swfUrl:"/apps/extplugins/static/js/Ext.ux.upload/examples/swf/swfupload.swf"
+                ,maxFiles:10
+                ,maxFileSize:100000
+                ,allowedFileTypes:"*.*"
+            });
 
-	  this.uploadMgr.on({
-	    scope:this
-	    ,beforeupload:function() {
-	      this.queuePanel.expand(false);
-	      //var node = this.fileTreePanel.getContextMenu().node;
-	      var node = this.fileTreePanel.getNodeById(this.historyCurrentId);
-	      console.log("NODE", this.historyCurrentId, node);
-	      if (node.isLeaf()) node = node.parentNode;
-	      var path = (node.isRoot) ? "" : this.getNodePath(node);
-	      var url = this.swfuploaderConfig.url+path;
-	      this.uploadMgr.setUploadUrl(url);
-	    }
-	    ,uploadcomplete:function(uploadMgr, conn, file) {
-	      //var node = this.fileTreePanel.getContextMenu().node;
-	      var node = this.fileTreePanel.getNodeById(this.historyCurrentId);
-	      if (node.isLeaf()) node = node.parentNode;
-	      node.reload(this.load.createDelegate(this));
-	    }
-	    ,queuecomplete:function() {
-	      this.queuePanel.collapse.defer(2000, this.queuePanel);
-	    }
-	  });
+            this.uploadMgr.setLogFrame(this.queuePanel);
 
-	} else var panelConfig = this.fileTreePanel;
+            this.uploadMgr.on({
+                scope:this
+                ,beforeupload:function() {
+                    this.queuePanel.expand(false);
+                    //var node = this.fileTreePanel.getContextMenu().node;
+                    var node = this.fileTreePanel.getNodeById(this.historyCurrentId);
+                    console.log("NODE", this.historyCurrentId, node);
+                    if (node.isLeaf()) node = node.parentNode;
+                    var path = (node.isRoot) ? "" : this.getNodePath(node);
+                    var url = this.swfuploaderConfig.url+path;
+                    this.uploadMgr.setUploadUrl(url);
+                }
+                ,uploadcomplete:function(uploadMgr, conn, file) {
+                    //var node = this.fileTreePanel.getContextMenu().node;
+                    var node = this.fileTreePanel.getNodeById(this.historyCurrentId);
+                    if (node.isLeaf()) node = node.parentNode;
+                    node.reload(this.load.createDelegate(this));
+                }
+                ,queuecomplete:function() {
+                    this.queuePanel.collapse.defer(2000, this.queuePanel);
+                }
+            });
 
-      	/**************************************************
-	 * ************************************************
-	 * END OF UPLOAD SETTINGS
-	 * ************************************************
-	 **************************************************/
+        } else var panelConfig = this.fileTreePanel;
+
+        /**************************************************
+        * ************************************************
+        * END OF UPLOAD SETTINGS
+        * ************************************************
+        **************************************************/
 
 
 	/**************************************************
@@ -201,7 +203,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
             */
             this.fileBrowserIcones = new Ext.ux.dataViewBrowser({
                 store:this.dataViewStore
-                ,readonly:this.readonly
+                ,readOnly:this.readOnly
             });
 
             this.fileBrowserIcones.on({
@@ -215,7 +217,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
             */
             this.fileBrowserList = new Ext.ux.GridBrowser({
                 store:this.dataViewStore
-                ,readonly:this.readonly
+                ,readOnly:this.readOnly
                 ,autoHeight:true
             });
 

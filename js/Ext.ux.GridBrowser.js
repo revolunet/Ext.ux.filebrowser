@@ -19,7 +19,7 @@ Ext.ux.GridBrowser = Ext.extend(Ext.grid.GridPanel, {
 
         ,rowcontextmenu:{fn:function(grid, index, e) {
             this.getSelectionModel().selectRow(index);
-	    if (!this.readonly) {
+	    if (!this.readOnly) {
 		var id = this.getStore().getAt(index).get("id");
 		this.fireEvent("elementContextMenu", id, e);
 	    }

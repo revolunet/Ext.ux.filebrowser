@@ -1394,7 +1394,7 @@ Ext.ux.FileTreePanel = Ext.extend(Ext.tree.TreePanel, {
 
 		return this;
 
-	} // eo function setReadOnly
+	} // eo function setreadOnly
 	// }}}
 	// {{{
 	/**
