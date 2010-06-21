@@ -249,9 +249,9 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
                 region:"center"
                 ,layout:"fit"
                 ,border:false
-		,autoScroll:true
-		,plugins:[this.uploadMgr]
-		//,plugins:this.uploadMgr ? [this.uploadMgr] : []
+		,autoScroll:true 
+		//,plugins:[this.uploadMgr]
+		,plugins:this.uploadMgr ? [this.uploadMgr] : []
                 ,items:[this.fileBrowserIcones, this.fileBrowserList]
                 ,listeners:{
                   resize:{scope:this, fn:function() {this.previewItem(this.previewNode, true);}}
