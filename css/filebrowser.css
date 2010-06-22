@@ -38,7 +38,7 @@ text-transform:uppercase;
 
 .icon-close {
   background-position:0px 0px !important;
-  background-image: url(/extjs/resources/images/default/panel/tool-sprites.gif) !important;
+  background-image: url(http://lib.chewam.com/ext/resources/images/default/panel/tool-sprites.gif) !important;
   background-repeat: no-repeat !important;
   background-color: transparent;
   height:15px !important;
@@ -48,6 +48,12 @@ text-transform:uppercase;
 .icon-file-png, .icon-file-gif { 
 background-image:url(../img/picture.png) !important;
 background-repeat:no-repeat;
+}
+
+.icon-file-png-64, .icon-file-gif-64 {
+    background-image:url(../img/picture_64.png) !important;
+    background-repeat:no-repeat;
+    background-position:50% -6px !important;
 }
 
 .icon-file-csv, .icon-file-xls { 
@@ -66,12 +72,22 @@ background-repeat:no-repeat;
 }
 
 .icon-file-zip, .icon-file-rar, .icon-file-tar, .icon-file-tgz, .icon-file-gz { 
-background-image:url(../img/page_white_compressed.png) !important;
-background-repeat:no-repeat;
+    background-image:url(../img/page_white_compressed.png) !important;
+    background-repeat:no-repeat;
 }
 
-.icon-wrench-orange { 
-background-image:url(../img/wrench_orange.png) !important;
+.icon-file-avi, .icon-file-mp4, .icon-file-mpeg, .icon-file-mkv {
+    background-image:url(../img/video_16.png) !important;
+    background-repeat:no-repeat;
+}
+
+.icon-file-avi-64, .icon-file-mp4-64, .icon-file-mpeg-64, .icon-file-mkv-64 {
+    background-image:url(../img/video_48.png) !important;
+    background-repeat:no-repeat;
+}
+
+.icon-wrench {
+    background-image:url(../img/wrench.png) !important;
 }
 
 .icon-computer-link { 
@@ -174,15 +190,15 @@ background-repeat:no-repeat;
 }
 
 .x-tree-node-collapsed .x-tree-node-icon, .row-folder {
-background-image:url(../img/folder-16.png)  ;
+background-image:url(../img/folder_16.png)  ;
 }
 
 .x-tree-node-expanded .x-tree-node-icon {
-background-image:url(../img/folder-open-16.png) ;
+background-image:url(../img/folder-open_16.png) ;
 }
 
 .x-tree-node-leaf .x-tree-node-icon, .row-file {
-background-image:url(../img/file-16.png);
+background-image:url(../img/file_16.png);
 }
 
 .browser-view .x-splitbar-h {
@@ -201,21 +217,14 @@ background-image:url(../img/file-16.png);
 }
 
 .thumb .folder {
-background-image:url(../img/folder-64.png) !important;
-background-position: 7px 0px;
+    background-image:url(../img/folder_64.png) !important;
+    background-position:50% -6px !important;
 }
 
 .thumb .file {
-background-image:url(../img/file-48.png) !important;
-background-position: 14px 9px;
+background-image:url(../img/file_48.png) !important;
 }
 
-.thumb .item {
-width:80px;
-height:64px;
-background-repeat: no-repeat;
-background-color: #FFFFFF;
-}
 
 .row-file, .row-folder {
   padding-left:20px;
@@ -230,7 +239,7 @@ background-color: #FFFFFF;
 
 .image-preview .x-toolbar {
   padding:1px !important;
-  background:#D0DEF0 url(/extjs/resources/images/default/toolbar/bg.gif) repeat-x scroll left top;
+  background:#D0DEF0 url(http://lib.chewam.com/ext/resources/images/default/toolbar/bg.gif) repeat-x scroll left top;
   filter : alpha(opacity=80);
   -moz-opacity : 0.8;
   opacity : 0.8;

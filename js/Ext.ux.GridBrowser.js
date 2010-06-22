@@ -1,6 +1,5 @@
 Ext.ux.GridBrowser = Ext.extend(Ext.grid.GridPanel, {
     border:false
-    ,hidden:true
     ,enableHdMenu:false
     ,viewConfig: {forceFit:true}
 
@@ -44,7 +43,7 @@ Ext.ux.GridBrowser = Ext.extend(Ext.grid.GridPanel, {
     ,fileRenderer:function(value, metaData, record) {
         var html = "";
         if (record.data.leaf != undefined && record.data.leaf === true)
-            html += '<div class="'+record.data.iconCls+'" style="padding:2px 0 1px 20px;">'+value+'</div>';
+            html += '<div class="row-file '+record.data.iconCls+'" style="padding:2px 0 1px 20px;">'+value+'</div>';
         else html += '<div class="icon-row-folder">'+value+'</div>';
         return html;
     }
