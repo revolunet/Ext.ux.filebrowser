@@ -53,7 +53,7 @@ background-repeat:no-repeat;
 .icon-file-png-64, .icon-file-gif-64 {
     background-image:url(../img/picture_64.png) !important;
     background-repeat:no-repeat;
-    background-position:50% -6px !important;
+    background-position:50% -7px !important;
 }
 
 .icon-file-csv, .icon-file-xls { 
@@ -156,7 +156,7 @@ background-image:url(../img/folder_explore.png) !important;
 }
 
 .icon-up {
-background-image:url(../img/folder_up.png) !important;
+background-image:url(../img/arrow_up.png) !important;
 }
 
 .icon-previous {
@@ -185,7 +185,7 @@ background-repeat:no-repeat;
 .icon-row-folder {
 padding-left:20px;
 background-position:0 -2px;
-background-image:url(../img/folder.gif) !important;
+background-image:url("../img/folder_16.png") !important;
 background-repeat:no-repeat;
 }
 
@@ -218,7 +218,7 @@ background-image:url(../img/file_16.png);
 
 .thumb .folder {
     background-image:url(../img/folder_64.png) !important;
-    background-position:50% -6px !important;
+    background-position:50% -8px !important;
 }
 
 .thumb .file {

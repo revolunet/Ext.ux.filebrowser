@@ -7,6 +7,7 @@ Ext.onReady(function() {
         ,width:650
         ,readOnly:false
         ,enableBrowser:true
+        ,browserDDGroup:"DDGroup1"
         ,url:"php/getfiles.php"
     });
 

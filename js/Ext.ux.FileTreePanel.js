@@ -590,44 +590,44 @@ Ext.ux.FileTreePanel = Ext.extend(Ext.tree.TreePanel, {
 	 * @param {Boolean} success true if ajax call was successful (cmd may have failed)
 	 * @param {Object} response ajax call response object
 	 */
-	,cmdCallback:function(options, success, response) {
-	  var i, o, node;
-	  var showMsg = true;
+    ,cmdCallback:function(options, success, response) {
+        var i, o, node;
+	    var showMsg = true;
 
-	  // process Ajax success
-	  if(true === success) {
+	    // process Ajax success
+	    if(true === success) {
 
-	    // try to decode JSON response
-	    try {
-	      o = Ext.decode(response.responseText);
-	    }
-	    catch(ex) {
-	      this.showError(response.responseText);
-	    }
+	        // try to decode JSON response
+	        try {
+	            o = Ext.decode(response.responseText);
+	        }
+	        catch(ex) {
+	            this.showError(response.responseText);
+	        }
 
-	    // process command success
-	    if(true === o.success) {
-	      switch(options.params.cmd) {
-	      case 'delete':
-		if(true !== this.eventsSuspended) {
-		  this.fireEvent('delete', this, this.getPath(options.node));
-		}
-		options.node.parentNode.removeChild(options.node);
-		break;
+	        // process command success
+	        if(true === o.success) {
+	            switch(options.params.cmd) {
+	                case 'delete':
+		                if(true !== this.eventsSuspended) {
+		                    this.fireEvent('delete', this, this.getPath(options.node));
+		                }
+		                options.node.parentNode.removeChild(options.node);
+                    break;
 
-	      case 'newdir':
-		if(true !== this.eventsSuspended) {
-		  this.fireEvent('newdir', this, options.node);
-		}
-		break;
+	                case 'newdir':
+		                if(true !== this.eventsSuspended) {
+		                    this.fireEvent('newdir', this, options.node);
+		                }
+                    break;
 
-	      case 'rename':
-		this.updateCls(options.node, options.params.oldname);
-		if(true !== this.eventsSuspended) {
-		  this.fireEvent('rename', this, options.node, options.params.newname, options.params.oldname);
-		}
-		break;
-	      }
+	                case 'rename':
+		                this.updateCls(options.node, options.params.oldname);
+		                if(true !== this.eventsSuspended) {
+		                    this.fireEvent('rename', this, options.node, options.params.newname, options.params.oldname);
+		                }
+                    break;
+	            }
 
                 //this.fireEvent('allfinished', this);
 			} // eo process command success

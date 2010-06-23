@@ -1,8 +1,5 @@
 Ext.ux.dataViewBrowser = Ext.extend(Ext.DataView, {
-
-    hidden:false
-
-    ,multiSelect:true
+    singleSelect:true
 
     ,overClass:'x-view-over'
 
@@ -10,8 +7,7 @@ Ext.ux.dataViewBrowser = Ext.extend(Ext.DataView, {
 
     ,readOnly:false
 
-   ,initComponent:function() {
-
+    ,initComponent:function() {
         this.tpl = new Ext.XTemplate (
             '<tpl for=".">',
             '<div class="thumb-wrap" id="{id}">',
@@ -23,7 +19,7 @@ Ext.ux.dataViewBrowser = Ext.extend(Ext.DataView, {
             '<div class="x-clear"></div>'
         );
 
-        this.DragSelect = new Ext.DataView.DragSelector();
+        //        this.DragSelect = new Ext.DataView.DragSelector();
 
         this.LabelEdit = new Ext.DataView.LabelEditor({
             dataIndex:'id'
@@ -37,7 +33,7 @@ Ext.ux.dataViewBrowser = Ext.extend(Ext.DataView, {
             }
         });
 
-        this.plugins = [this.DragSelect, this.LabelEdit];
+        this.plugins = [/*this.DragSelect, */this.LabelEdit];
 
         Ext.ux.dataViewBrowser.superclass.initComponent.apply(this, arguments);
 
@@ -46,6 +42,8 @@ Ext.ux.dataViewBrowser = Ext.extend(Ext.DataView, {
                 this.el.on({
                     contextmenu:{fn:function(){return false;},stopEvent:true}
                 });
+                this.initializeDataViewDragZone(dataView);
+                this.initializeDataViewDropZone(dataView);
             }}
             ,dblclick:{fn:function(dataView, index, node) {
                 this.fireEvent("elementExecuted", node.id);
@@ -61,4 +59,47 @@ Ext.ux.dataViewBrowser = Ext.extend(Ext.DataView, {
             }}
         });
     }
+
+    ,initializeDataViewDragZone:function(v) {
+        v.dragZone = new Ext.dd.DragZone(v.getEl(), {
+            getDragData: function(e) {
+                var sourceEl = e.getTarget(v.itemSelector, 10);
+                if (sourceEl) {
+                    d = sourceEl.cloneNode(true);
+                    d.id = Ext.id();
+                    return v.dragData = {
+                        sourceEl:sourceEl,
+                        repairXY:Ext.fly(sourceEl).getXY(),
+                        ddel:d,
+                        record:v.getRecord(sourceEl)
+                    };
+                } else return false;
+            }
+            ,getRepairXY: function() {
+                return this.dragData.repairXY;
+            }
+        });
+    }
+
+    ,initializeDataViewDropZone:function(v) {
+        v.dropZone = new Ext.dd.DropZone(v.getEl(), {
+            getTargetFromEvent: function(e) {
+	            return e.getTarget(v.itemSelector, 10);
+            }
+            ,onNodeOver:function(target, dd, e, data) {
+	            if (Ext.fly(target).select("div.item").first().hasClass("folder"))
+	                return Ext.dd.DropZone.prototype.dropAllowed;
+	            else return false;
+            }
+            ,onNodeDrop:(function(target, dd, e, options) {
+                var node = Ext.fly(target).select("div.item").first();
+                if (node.hasClass("folder")) {
+                    var record = v.getRecord(target);
+                    v.fireEvent("filedrop", v, record, options.record);
+                    return true;
+                } else return false;
+            }).createDelegate(this)
+        });
+    }
+
 });

@@ -27,6 +27,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
     ,statusBar:false
     ,fileTreePanel:false
     ,enableUpload:false
+    ,browserDDGroup:null
 
     ,initComponent:function() {
 
@@ -41,6 +42,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
             ,method:'post'
             ,rootPath:''
             ,url:this.url
+            ,ddGroup:this.browserDDGroup
             ,rootText:this.rootText
             ,cmdParams:{root:this.root}
             ,listeners:{
@@ -77,7 +79,6 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
 
         if (this.statusBar) {
             this.StatusBarSize = new Ext.Toolbar.TextItem('Size:');
-            console.log("StatusBarSize", this.StatusBarSize);
             this.StatusSpacer = new Ext.Toolbar.Spacer();
             this.StatusBarDetails = new Ext.Toolbar.TextItem('Details: ');
 
@@ -141,7 +142,6 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
                 ,beforeupload:function() {
                     this.queuePanel.expand(false);
                     var node = this.fileTreePanel.getNodeById(this.historyCurrentId);
-                    console.log("NODE", this.historyCurrentId, node);
                     if (node.isLeaf()) node = node.parentNode;
                     var path = (node.isRoot) ? "" : this.getNodePath(node);
                     var url = this.swfuploaderConfig.url+path;
@@ -183,6 +183,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
                 store:this.dataViewStore
                 ,autoScroll:true
                 ,readOnly:this.readOnly
+                ,browserDDGroup:this.browserDDGroup
                 //,hidden:true
             });
 
@@ -191,6 +192,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
                     this.relayEvents(this.fileBrowserIcones, [
                         "elementSelected", "elementExecuted"
                         ,"elementContextMenu", "fileRename"
+                        ,"filedrop"
                     ]);
                 }}
             });
@@ -201,11 +203,15 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
             this.fileBrowserList = new Ext.ux.GridBrowser({
                 store:this.dataViewStore
                 ,readOnly:this.readOnly
+                ,ddGroup:this.browserDDGroup
             });
 
             this.fileBrowserList.on({
                 render:{scope:this, fn:function() {
-                    this.relayEvents(this.fileBrowserList, ["elementSelected", "elementExecuted", "elementContextMenu"]);
+                    this.relayEvents(this.fileBrowserList, [
+                        "filedrop", "elementSelected"
+                        ,"elementExecuted", "elementContextMenu"
+                    ]);
                 }}
             });
 
@@ -221,7 +227,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
                     ,disabled:true
                     ,handler:this.historyPrevious
                     ,scope:this
-                }, "-", {
+                }, {
                     tooltip:"Next"
                     ,iconCls:"icon-next"
                     ,disabled:true
@@ -292,7 +298,6 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
     ,listeners:{
       afterrender:function() {
         if (this.statusBar && typeof this.statusBar != "object") {
-	        console.log("StatusBarSize 2", this.StatusBarSize);
 //          Ext.fly(this.StatusBarSize.getEl()).addClass('x-status-text-panel').createChild({cls:'spacer'});
 //          Ext.fly(this.StatusBarDetails.getEl()).addClass('x-status-text-panel').createChild({cls:'spacer'});
         }
@@ -323,6 +328,25 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
         var menu = this.fileTreePanel.getContextMenu();
 	    menu.node = treeNode;
         menu.showAt(e.xy);
+      }
+      ,filedrop:function(cmp, targetRecord, dragRecord) {
+            var parentNode = this.fileTreePanel.getNodeById(targetRecord.get("id"));
+            var childNode = this.fileTreePanel.getNodeById(dragRecord.get("id"));
+            Ext.Ajax.request({
+               url:this.url
+               ,scope:this
+               ,params:{
+                   cmd:"rename"
+                   ,oldname:this.getNodePath(childNode)
+                   ,newname:this.getNodePath(parentNode) + "/" + dragRecord.get("text")
+               }
+               ,callback:function() {
+                    if (parentNode.isLoaded())
+                        parentNode.appendChild(childNode);
+                    else childNode.remove();
+                    cmp.store.remove(dragRecord);
+               }
+            });
       }
     }
 
@@ -424,7 +448,15 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
             var index = this.dataViewStore.find("id", node.id);
             if (index > -1) {
                 var record = this.dataViewStore.getAt(index);
-                record.set("text", newname.split("/")[1]);
+                var ntab = newname.split("/");
+                var otab = oldname.split("/");
+                if (ntab.length === otab.length) {
+                    var text = ntab[ntab.length-1];
+                    record.set("text", text);
+                } else {
+                    this.dataViewStore.remove(record);
+                }
+
             }
         }
     }
