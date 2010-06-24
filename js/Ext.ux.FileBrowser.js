@@ -52,6 +52,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
                 ,load:{scope:this, fn:this.treePanelLoad}
                 ,download:{scope:this, fn:this.downloadItem}
                 ,rename:{scope:this, fn:this.renameItem}
+                ,nodemove:{scope:this, fn:this.renameItem}
                 ,newdir:{scope:this, fn:function(treepanel, node){
                   this.load(node.parentNode);
                 }}
@@ -184,6 +185,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
                 ,autoScroll:true
                 ,readOnly:this.readOnly
                 ,browserDDGroup:this.browserDDGroup
+                ,getNodePath:this.getNodePath.createDelegate(this)
                 //,hidden:true
             });
 
@@ -204,6 +206,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
                 store:this.dataViewStore
                 ,readOnly:this.readOnly
                 ,ddGroup:this.browserDDGroup
+                ,getNodePath:this.getNodePath.createDelegate(this)
             });
 
             this.fileBrowserList.on({
@@ -330,7 +333,10 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
         menu.showAt(e.xy);
       }
       ,filedrop:function(cmp, targetRecord, dragRecord) {
-            var parentNode = this.fileTreePanel.getNodeById(targetRecord.get("id"));
+            if (targetRecord)
+                var parentNode = this.fileTreePanel.getNodeById(targetRecord.get("id"));
+            else
+                var parentNode = this.fileTreePanel.getNodeById(this.historyCurrentId);
             var childNode = this.fileTreePanel.getNodeById(dragRecord.get("id"));
             Ext.Ajax.request({
                url:this.url
@@ -344,7 +350,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
                     if (parentNode.isLoaded())
                         parentNode.appendChild(childNode);
                     else childNode.remove();
-                    cmp.store.remove(dragRecord);
+                    this.load(this.fileTreePanel.getNodeById(this.historyCurrentId)); 
                }
             });
       }
@@ -445,11 +451,15 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
 
     ,renameItem:function(treepanel, node, newname, oldname) {
         if (this.dataViewStore) {
+
+            var currentNode = this.fileTreePanel.getNodeById(this.historyCurrentId);
+            this.load(currentNode);
+/*
             var index = this.dataViewStore.find("id", node.id);
+            var ntab = newname.split("/");
+            var otab = oldname.split("/");
             if (index > -1) {
                 var record = this.dataViewStore.getAt(index);
-                var ntab = newname.split("/");
-                var otab = oldname.split("/");
                 if (ntab.length === otab.length) {
                     var text = ntab[ntab.length-1];
                     record.set("text", text);
@@ -457,7 +467,13 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
                     this.dataViewStore.remove(record);
                 }
 
+            } else {
+                var currentNode = this.fileTreePanel.getNodeById(this.historyCurrentId),
+                currentPath = this.getNodePath(currentNode),
+                newPath = this.getNodePath(node);
+                console.log("PATH", currentNode, currentPath, "***", newPath, "$$$", newname);
             }
+*/
         }
     }
 

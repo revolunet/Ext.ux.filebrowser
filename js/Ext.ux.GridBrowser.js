@@ -24,7 +24,8 @@ Ext.ux.GridBrowser = Ext.extend(Ext.grid.GridPanel, {
         this.on({
             render:{fn:function(grid) {
                 this.el.on({contextmenu:{fn:function(){return false;},stopEvent:true}});
-                this.initializeDataViewDropZone(grid);
+                this.initializeDropZone(grid);
+                //this.initializeDragZone(grid)
             }}
             ,rowdblclick:{fn:function(grid, rowIndex) {
                 this.fireEvent("elementExecuted", grid.getStore().getAt(rowIndex).get("id"));
@@ -58,26 +59,90 @@ Ext.ux.GridBrowser = Ext.extend(Ext.grid.GridPanel, {
         return html;
     }
 
-    ,initializeDataViewDropZone:function(grid) {
+    ,getDragDropText : function(){
+        var records = this.selModel.getSelections();
+        var html = "";
+        Ext.each(records, function(record) {
+            var iconCls = record.get("leaf") === true ? "row-file" : "icon-row-folder";
+            html += '<div class="'+iconCls+' '+record.get("iconCls")+'">'+record.get("text")+'</div>';
+        }, this);
+        return html;
+    }
+
+    ,initializeDropZone:function(grid) {
         new Ext.dd.DropTarget(grid.getView().scroller.dom, {
             ddGroup:grid.ddGroup
             ,notifyOver:function(ddSource, e, data) {
-                if (
-                    Ext.fly(e.getTarget()).hasClass("icon-row-folder") ||
-                    Ext.fly(e.getTarget()).select("div.icon-row-folder").elements.length
-                ) return Ext.dd.DropZone.prototype.dropAllowed;
-                else return Ext.dd.DropZone.prototype.dropNotAllowed;
+                var rowIndex = grid.getView().findRowIndex(e.getTarget());
+                var targetRecord = grid.getStore().getAt(rowIndex);
+
+                if (data.node) {
+                    if (targetRecord && rowIndex !== false) {
+                        var targetNode = data.node.ownerTree.getNodeById(targetRecord.get("id"));
+                        var targetPath = grid.getNodePath(targetNode);
+                    }
+                    var inStore = grid.getStore().find("id", data.node.attributes.id);
+                    if (
+                        (inStore < 0 &&
+                        (rowIndex === false || (targetRecord && targetRecord.get("leaf") === true)))
+                        || ((targetRecord && targetRecord.get("leaf") !== true) &&
+                           (targetPath+"/"+data.node.attributes.text !== data.node.attributes.path))
+                    )
+                        return Ext.dd.DropZone.prototype.dropAllowed;
+                    return Ext.dd.DropZone.prototype.dropNotAllowed;
+                } else {
+                    var dragRecords =  ddSource.dragData.selections;
+                    if (
+                        dragRecords && targetRecord &&
+                        dragRecords[0].get("id") !== targetRecord.get("id") &&
+                        (
+                            Ext.fly(e.getTarget()).hasClass("icon-row-folder") ||
+                            Ext.fly(e.getTarget()).select("div.icon-row-folder").elements.length
+                        )
+                    ) return Ext.dd.DropZone.prototype.dropAllowed;
+                    else return Ext.dd.DropZone.prototype.dropNotAllowed;
+                }
+
             }
             ,notifyDrop:function(ddSource, e, data){
-                if (
-                    Ext.fly(e.getTarget()).hasClass("icon-row-folder") ||
-                    Ext.fly(e.getTarget()).select("div.icon-row-folder").elements.length
-                ) {
+                var rowIndex = grid.getView().findRowIndex(e.getTarget());
+                var targetRecord = grid.getStore().getAt(rowIndex);
+
+                if (data.node) {
+                    if (targetRecord && rowIndex !== false) {
+                        var targetNode = data.node.ownerTree.getNodeById(targetRecord.get("id"));
+                        var targetPath = grid.getNodePath(targetNode);
+                    }
+                    var inStore = grid.getStore().find("id", data.node.attributes.id);
+                    if (
+                        (inStore < 0 &&
+                        (rowIndex === false || (targetRecord && targetRecord.get("leaf") === true)))
+                        || ((targetRecord && targetRecord.get("leaf") !== true) &&
+                           (targetPath+"/"+data.node.attributes.text !== data.node.attributes.path))
+                    ) {
+                        var dragRecord = new Ext.util.MixedCollection();
+                        dragRecord.addAll({
+                            id:data.node.attributes.id
+                            ,text:data.node.attributes.text
+                            ,isNode:true
+                        });
+                        grid.fireEvent("filedrop", grid, targetRecord, dragRecord);
+                        return true;
+                    } return false;
+                } else {
                     var dragRecords =  ddSource.dragData.selections;
-                    var targetRecord = grid.getStore().getAt(grid.getView().findRowIndex(e.getTarget()));
-                    grid.fireEvent("filedrop", grid, targetRecord, dragRecords[0]);
-                    return true
+                    if (
+                        dragRecords[0].get("id") !== targetRecord.get("id") &&
+                        (
+                            Ext.fly(e.getTarget()).hasClass("icon-row-folder") ||
+                            Ext.fly(e.getTarget()).select("div.icon-row-folder").elements.length
+                        )
+                    ) {
+                        grid.fireEvent("filedrop", grid, targetRecord, dragRecords[0]);
+                        return true
+                    } else return false;
                 }
+
             }
         });
 

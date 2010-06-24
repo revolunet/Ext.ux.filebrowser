@@ -471,6 +471,13 @@ Ext.ux.FileTreePanel = Ext.extend(Ext.tree.TreePanel, {
 			 */
 			,'rename'
 			/**
+			 * @event nodemove
+			 * Fires after the file has been successfully moved
+			 * @param {Ext.ux.FileTreePanel} this
+			 * @param {Ext.tree.AsyncTreeNode} node that has been renamed
+			 */
+			,'nodemove'
+			/**
 			 * @event renamefailure
 			 * Fires after a failure when renaming file
 			 * @param {Ext.ux.FileTreePanel} this
@@ -1254,7 +1261,6 @@ Ext.ux.FileTreePanel = Ext.extend(Ext.tree.TreePanel, {
 	 * @param {Object} dd event
 	 */
 	,onNodeDrop:function(e) {
-
 		// failure can be signalled by cmdCallback
 		// put drop node to the original parent in that case
 		if(true === e.failure) {
@@ -1267,6 +1273,8 @@ Ext.ux.FileTreePanel = Ext.extend(Ext.tree.TreePanel, {
 		if(sameNode && sameNode !== e.dropNode) {
 			sameNode.parentNode.removeChild(sameNode);
 		}
+
+        this.fireEvent("nodemove", this, e.dropNode);
 	}
 	// }}}
 	// {{{
