@@ -39,7 +39,12 @@ Ext.ux.GridBrowser = Ext.extend(Ext.grid.GridPanel, {
                     var id = this.getStore().getAt(index).get("id");
                     this.fireEvent("elementContextMenu", id, e);
                 }
-            }}            
+            }}
+            ,contextmenu:{fn:function(e) {
+                if (!this.readOnly) {
+                    this.fireEvent("viewContextMenu", e);
+                }
+            }}
         });
 
     }
@@ -126,6 +131,7 @@ Ext.ux.GridBrowser = Ext.extend(Ext.grid.GridPanel, {
                             ,text:data.node.attributes.text
                             ,isNode:true
                         });
+                        if (targetRecord && targetRecord.get("leaf") === true) targetRecord = null;
                         grid.fireEvent("filedrop", grid, targetRecord, dragRecord);
                         return true;
                     } return false;

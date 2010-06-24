@@ -861,11 +861,14 @@ Ext.ux.FileTreePanel = Ext.extend(Ext.tree.TreePanel, {
 	,getContextMenu:function() {
 		// lazy create context menu
 		if(!this.contextmenu) {
+            config = {};
+            /*
 			var config = {
 				 singleUpload:this.singleUpload
 				,maxFileSize:this.maxFileSize
 				,enableProgress:this.enableProgress
 			};
+			*/
 			if(this.baseParams) {
 				config.baseParams = this.baseParams;
 			}
@@ -973,68 +976,6 @@ Ext.ux.FileTreePanel = Ext.extend(Ext.tree.TreePanel, {
 			editor.cancelEdit();
 			return false;
 		}
-	}
-	// }}}
-	// {{{
-	/**
-	 * runs before node is dropped
-	 * @private
-	 * @param {Object} e dropEvent object
-	 */
-	,onBeforeNodeDrop:function(e) {
-
-		// source node, node being dragged
-		var s = e.dropNode;
-
-		// destination node (dropping on this node)
-		var d = e.target.leaf ? e.target.parentNode : e.target;
-
-		// node has been dropped within the same parent
-		if(s.parentNode === d) {
-			return false;
-		}
-
-		// check if same name exists in the destination
-		// this works only if destination node is loaded
-		if(this.hasChild(d, s.text) && undefined === e.confirmed) {
-			this.confirmOverwrite(s.text, function(response) {
-				e.confirmed = 'yes' === response;
-				this.onBeforeNodeDrop(e);
-			});
-			return false;
-		}
-		if(false === e.confirmed) {
-			return false;
-		}
-
-		e.confirmed = undefined;
-		e.oldParent = s.parentNode;
-
-		var oldName = this.getPath(s);
-		var newName = this.getPath(d) + '/' + s.text;
-
-		// fire beforerename event
-		if(true !== this.eventsSuspended && false === this.fireEvent('beforerename', this, s, newName, oldName)) {
-			return false;
-		}
-
-		var options = {
-			 url:this.renameUrl || this.url
-			,method:this.method
-			,scope:this
-			,callback:this.cmdCallback
-			,node:s
-			,oldParent:s.parentNode
-			,e:e
-			,params:{
-				 cmd:'rename'
-				,oldname:oldName
-				,newname:newName
-			}
-		};
-//		Ext.Ajax.request(options);
-		this.sendCmd(options);
-		return true;
 	}
 	// }}}
 	// {{{
@@ -1251,8 +1192,82 @@ Ext.ux.FileTreePanel = Ext.extend(Ext.tree.TreePanel, {
 	 * @param {Object} dd event
 	 */
 	,onNodeDragOver:function(e) {
-		e.cancel = e.target.disabled || e.dropNode.parentNode === e.target.parentNode && e.target.isLeaf();
+        if (!e.dropNode) {
+            if (!e.data.record)
+                e.data.record = e.data.grid.getStore().getAt(e.data.rowIndex);
+            e.dropNode = this.getNodeById(e.data.record.get("id"));
+        }
+	 	e.cancel = e.target.disabled || e.dropNode.parentNode === e.target.parentNode && e.target.isLeaf();
+        //e.cancel = false;
 	} // eo function onNodeDragOver
+	// }}}
+	// {{{
+	/**
+	 * runs before node is dropped
+	 * @private
+	 * @param {Object} e dropEvent object
+	 */
+	,onBeforeNodeDrop:function(e) {
+		// source node, node being dragged
+        if (!e.dropNode) {
+            if (!e.data.record)
+                e.data.record = e.data.grid.getStore().getAt(e.data.rowIndex);
+            e.dropNode = this.getNodeById(e.data.record.get("id"));
+        }
+		var s = e.dropNode;
+
+		// destination node (dropping on this node)
+		var d = e.target.leaf ? e.target.parentNode : e.target;
+
+		// node has been dropped within the same parent
+		if(s.parentNode === d) {
+			return false;
+		}
+
+		// check if same name exists in the destination
+		// this works only if destination node is loaded
+		if(this.hasChild(d, s.text) && undefined === e.confirmed) {
+			this.confirmOverwrite(s.text, function(response) {
+				e.confirmed = 'yes' === response;
+				this.onBeforeNodeDrop(e);
+			});
+			return false;
+		}
+		if(false === e.confirmed) {
+			return false;
+		}
+
+		e.confirmed = undefined;
+		e.oldParent = s.parentNode;
+
+		var oldName = this.getPath(s);
+		var newName = this.getPath(d) + '/' + s.text;
+
+		// fire beforerename event
+		if(true !== this.eventsSuspended && false === this.fireEvent('beforerename', this, s, newName, oldName)) {
+			return false;
+		}
+
+	 	e.cancel = e.target.disabled || e.dropNode.parentNode === e.target.parentNode && e.target.isLeaf();
+
+		var options = {
+			 url:this.renameUrl || this.url
+			,method:this.method
+			,scope:this
+			,callback:this.cmdCallback
+			,node:s
+			,oldParent:s.parentNode
+			,e:e
+			,params:{
+				 cmd:'rename'
+				,oldname:oldName
+				,newname:newName
+			}
+		};
+//		Ext.Ajax.request(options);
+		this.sendCmd(options);
+		return true;
+	}
 	// }}}
 	// {{{
 	/**
@@ -1263,6 +1278,12 @@ Ext.ux.FileTreePanel = Ext.extend(Ext.tree.TreePanel, {
 	,onNodeDrop:function(e) {
 		// failure can be signalled by cmdCallback
 		// put drop node to the original parent in that case
+        if (!e.dropNode) {
+            if (!e.data.record)
+                e.data.record = e.data.grid.getStore().getAt(e.data.rowIndex);
+            e.dropNode = this.getNodeById(e.data.record.get("id"));
+        }
+
 		if(true === e.failure) {
 			e.oldParent.appendChild(e.dropNode);
 			return;
@@ -1466,6 +1487,9 @@ Ext.ux.FileTreePanel = Ext.extend(Ext.tree.TreePanel, {
 
 		var menu = this.getContextMenu();
 		menu.node = node;
+        menu.setItemDisabled("open-dwnld", false);
+        menu.setItemDisabled("rename", false);
+        menu.setItemDisabled("delete", false);
 
 		// set node name
 //		menu.getItemByCmd('nodename').setText(Ext.util.Format.ellipsis(node.text, 22));

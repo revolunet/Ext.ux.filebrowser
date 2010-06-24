@@ -15,7 +15,6 @@
 Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
 
     layout:"border"
-    ,cls:"browser-view"
     ,readOnly:false
     ,data:[]
     ,url_view:""
@@ -38,7 +37,8 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
             autoScroll:true
             ,readOnly:this.readOnly
             ,region:"center"
-            ,border:false
+            //,border:false
+            ,bodyStyle:"border-width:0 1px 0 0"
             ,method:'post'
             ,rootPath:''
             ,url:this.url
@@ -54,7 +54,8 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
                 ,rename:{scope:this, fn:this.renameItem}
                 ,nodemove:{scope:this, fn:this.renameItem}
                 ,newdir:{scope:this, fn:function(treepanel, node){
-                  this.load(node.parentNode);
+                  var parentNode = this.fileTreePanel.getNodeById(this.historyCurrentId);
+                  this.load(parentNode);
                 }}
                 ,render:{scope:this, fn:function(){
                     this.fileTreePanel.loader.baseParams.root = this.root;
@@ -111,7 +112,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
             this.queuePanel = new Ext.Panel({
                 region:"south"
                 ,layout:"fit"
-                ,border:false
+                //,border:false
                 ,height:100
                 ,collapsed:true
                 ,collapseMode:"mini"
@@ -186,17 +187,19 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
                 ,readOnly:this.readOnly
                 ,browserDDGroup:this.browserDDGroup
                 ,getNodePath:this.getNodePath.createDelegate(this)
+                ,cls:"browser-view"
                 //,hidden:true
             });
 
             this.fileBrowserIcones.on({
-                render:{scope:this, fn:function() {
+                scope:this
+                ,render:function() {
                     this.relayEvents(this.fileBrowserIcones, [
                         "elementSelected", "elementExecuted"
                         ,"elementContextMenu", "fileRename"
-                        ,"filedrop"
+                        ,"filedrop", "viewContextMenu"
                     ]);
-                }}
+                }
             });
 
             /*
@@ -257,11 +260,13 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
                 ,plugins:this.uploadMgr ? [this.uploadMgr] : []
                 ,items:[{
                     layout:"fit"
-                    ,border:false
+                    //,border:false
+                    ,bodyStyle:"border-width:0 0 0 1px"
                     ,items:this.fileBrowserIcones
                 }, {
                     layout:"fit"
-                    ,border:false
+                    //,border:false
+                    ,bodyStyle:"border-width:0 0 0 1px"
                     ,items:this.fileBrowserList
                 }]
                 ,listeners:{
@@ -329,6 +334,19 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
         var treeNode = this.fileTreePanel.getNodeById(id);
         var text = treeNode.attributes.text;
         var menu = this.fileTreePanel.getContextMenu();
+        menu.setItemDisabled("open-dwnld", false);
+        menu.setItemDisabled("rename", false);
+        menu.setItemDisabled("delete", false);
+	    menu.node = treeNode;
+        menu.showAt(e.xy);
+      }
+      ,viewContextMenu:function(e) {
+        var treeNode = this.fileTreePanel.getNodeById(this.historyCurrentId);
+        var text = treeNode.attributes.text;
+        var menu = this.fileTreePanel.getContextMenu();
+        menu.setItemDisabled("open-dwnld", true);
+        menu.setItemDisabled("rename", true);
+        menu.setItemDisabled("delete", true);
 	    menu.node = treeNode;
         menu.showAt(e.xy);
       }
@@ -347,6 +365,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
                    ,newname:this.getNodePath(parentNode) + "/" + dragRecord.get("text")
                }
                ,callback:function() {
+                    if (parentNode.isLeaf()) parentNode = parentNode.parentNode;
                     if (parentNode.isLoaded())
                         parentNode.appendChild(childNode);
                     else childNode.remove();

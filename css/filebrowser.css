@@ -1,3 +1,4 @@
+/*
 div.side-box {
 background:transparent url(../img/side-box.png) no-repeat scroll 0 0;
 margin-bottom:20px;
@@ -35,7 +36,7 @@ line-height:20px;
 padding:3px;
 text-transform:uppercase;
 }
-
+*/
 .icon-close {
   background-position:0px 0px !important;
   background-image: url(http://lib.chewam.com/ext/resources/images/default/panel/tool-sprites.gif) !important;
@@ -200,7 +201,7 @@ background-image:url(../img/folder-open_16.png) ;
 .x-tree-node-leaf .x-tree-node-icon, .row-file {
 background-image:url(../img/file_16.png);
 }
-
+/*
 .browser-view .x-splitbar-h {
   border-left:1px solid #8DB2E3;
   border-right:1px solid #8DB2E3;
@@ -215,7 +216,7 @@ background-image:url(../img/file_16.png);
 .x-layout-split-south {
   border-bottom:1px solid #8DB2E3;
 }
-
+*/
 .thumb .folder {
     background-image:url(../img/folder_64.png) !important;
     background-position:50% -8px !important;
@@ -247,4 +248,8 @@ background-image:url(../img/file_48.png) !important;
 
 .image-preview .x-toolbar div {
   border:0px;
+}
+
+.x-dd-drag-proxy {
+    background-color:#FFFFFF;
 }

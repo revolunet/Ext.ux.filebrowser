@@ -40,27 +40,28 @@ Ext.ux.FileTreeMenu = function(config) {
     uploadPanelConfig.baseParams = config.baseParams;
   }
 
-  Ext.apply(config, {
-    items:[{
-      text:this.openDwnldText
-      ,iconCls:this.openDwnldIconCls
-      ,cmd:'open-dwnld'
-    }
-      ,new Ext.menu.Separator({cmd:'sep-collapse'})
-      ,{
-	text:this.renameText + ' (F2)'
-	,iconCls:this.renameIconCls
-	,cmd:'rename'
-      },{
-	text:this.deleteText + ' (' + this.deleteKeyName + ')'
-	,iconCls:this.deleteIconCls
-	,cmd:'delete'
-      },{
-	text:this.newdirText + '... (Ctrl+N)'
-	,iconCls:this.newdirIconCls
-	,cmd:'newdir'
-      }
-    ]
+    Ext.apply(config, {
+        items:[{
+            text:this.openDwnldText
+            ,iconCls:this.openDwnldIconCls
+            ,cmd:'open-dwnld'
+        }
+        ,new Ext.menu.Separator({cmd:'sep-collapse'})
+        ,{
+            text:this.renameText + ' (F2)'
+            ,iconCls:this.renameIconCls
+            ,disabled:config.overView
+            ,cmd:'rename'
+        },{
+            text:this.deleteText + ' (' + this.deleteKeyName + ')'
+            ,iconCls:this.deleteIconCls
+            ,disabled:config.overView
+            ,cmd:'delete'
+        },{
+            text:this.newdirText + '... (Ctrl+N)'
+            ,iconCls:this.newdirIconCls
+            ,cmd:'newdir'
+        }]
   });
 
   // call parent

@@ -31,6 +31,7 @@
 	display: block;
 	overflow: hidden;
 	text-align: center;
+    font:13px arial,tahoma,helvetica,sans-serif;
 }
 
 .browser-view .x-view-over{

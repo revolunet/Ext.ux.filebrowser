@@ -57,6 +57,9 @@ Ext.ux.dataViewBrowser = Ext.extend(Ext.DataView, {
                 if (!this.readOnly)
                     this.fireEvent("elementContextMenu", node.id, e);
             }}
+            ,containercontextmenu:{fn:function(dataView, e) {
+                this.fireEvent("viewContextMenu", e);
+            }}
         });
     }
 
@@ -90,13 +93,17 @@ Ext.ux.dataViewBrowser = Ext.extend(Ext.DataView, {
         v.dropZone = new Ext.dd.DropZone(v.getEl(), {
             ddGroup:v.browserDDGroup
             ,getTargetFromEvent: function(e) {
-	            return e.getTarget(v.itemSelector, 10);
+	            //return e.getTarget(v.itemSelector, 10);
+                return e.getTarget();
             }
             ,onNodeOver:function(target, dd, e, options) {
+                var t = e.getTarget(v.itemSelector, 10);
+//                console.log("over", arguments, t);
 
-                var targetRecord = v.getRecord(target);
-                var rowIndex = v.store.indexOf(targetRecord);
-                //console.log("over", targetRecord, rowIndex);
+                if (t) {
+                    var targetRecord = v.getRecord(t);
+                    var rowIndex = v.store.indexOf(targetRecord);
+                }
 
                 if (options.node) {
                     if (targetRecord && rowIndex !== false) {
@@ -105,6 +112,7 @@ Ext.ux.dataViewBrowser = Ext.extend(Ext.DataView, {
                     }
                     var inStore = v.store.find("id", options.node.attributes.id);
                     if (
+                        !t || 
                         (inStore < 0 &&
                         (rowIndex === false || (targetRecord && targetRecord.get("leaf") === true)))
                         || ((targetRecord && targetRecord.get("leaf") !== true) &&
@@ -113,23 +121,23 @@ Ext.ux.dataViewBrowser = Ext.extend(Ext.DataView, {
                         return Ext.dd.DropZone.prototype.dropAllowed;
                     return Ext.dd.DropZone.prototype.dropNotAllowed;
                 } else {
-
-
                     if (
-                        targetRecord
+                        t && targetRecord
                         && targetRecord.get("leaf") !== true
                         && targetRecord.get("id") !== options.record.get("id")
 
                     ) return Ext.dd.DropZone.prototype.dropAllowed;
                     else return Ext.dd.DropZone.prototype.dropNotAllowed;
-
                 }
 
             }
             ,onNodeDrop:(function(target, dd, e, options) {
+                var t = e.getTarget(v.itemSelector, 10);
 
-                var targetRecord = v.getRecord(target);
-                var rowIndex = v.store.indexOf(targetRecord);
+                if (t) {
+                    var targetRecord = v.getRecord(t);
+                    var rowIndex = v.store.indexOf(targetRecord);
+                }
 
                 if (options.node) {
                     if (targetRecord && rowIndex !== false) {
@@ -138,6 +146,7 @@ Ext.ux.dataViewBrowser = Ext.extend(Ext.DataView, {
                     }
                     var inStore = v.store.find("id", options.node.attributes.id);
                     if (
+                        !t ||
                         (inStore < 0 &&
                         (rowIndex === false || (targetRecord && targetRecord.get("leaf") === true)))
                         || ((targetRecord && targetRecord.get("leaf") !== true) &&
@@ -156,7 +165,7 @@ Ext.ux.dataViewBrowser = Ext.extend(Ext.DataView, {
                 } else {
 
                     if (
-                        targetRecord
+                        t && targetRecord
                         && targetRecord.get("leaf") !== true
                         && targetRecord.get("id") !== options.record.get("id")
 
