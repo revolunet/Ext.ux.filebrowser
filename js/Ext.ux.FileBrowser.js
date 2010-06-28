@@ -517,9 +517,9 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
     }
 
     ,downloadItem:function(node) {
-      var filepath = this.path+"/"+this.url
-        + "cmd=download"
-        + "&file="+this.getNodePath(node)
+      var filepath = this.url
+        + "?cmd=download"
+        + "&file="+this.path+this.getNodePath(node)
       window.open(filepath);
     }
 
@@ -595,9 +595,9 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
 	        }).show();
 
         } else if (!resize){
-            var filepath = this.path+"/"+this.url
-                + "cmd=download"
-                + "&file="+this.getNodePath(node)
+            var filepath = this.url
+                + "?cmd=download"
+                + "&file="+this.path+this.getNodePath(node)
 	        window.open(filepath);
         }
     }
