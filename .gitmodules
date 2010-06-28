@@ -1,0 +1,3 @@
+[submodule "js/Ext.ux.upload"]
+	path = js/Ext.ux.upload
+	url = git@github.com:revolunet/Ext.ux.upload.git

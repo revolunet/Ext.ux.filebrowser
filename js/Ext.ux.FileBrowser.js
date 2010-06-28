@@ -17,7 +17,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
     layout:"border"
     ,readOnly:false
     ,data:[]
-    ,url_view:""
+    ,url:""
     ,historyCurrentId:false
     ,historyPreviousId:[]
     ,historyNextId:[]
@@ -26,6 +26,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
     ,statusBar:false
     ,fileTreePanel:false
     ,enableUpload:false
+    ,uploadUrl:""
     ,browserDDGroup:null
 
     ,initComponent:function() {
@@ -60,7 +61,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
                 ,render:{scope:this, fn:function(){
                     this.fileTreePanel.loader.baseParams.root = this.root;
                     this.fileTreePanel.setReadOnly(this.readOnly);
-                    this.enableUploadSystem();
+                    //this.enableUploadSystem();
                 }}
             }
     	    ,onDblClick:function(node, e) {
@@ -112,13 +113,14 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
             this.queuePanel = new Ext.Panel({
                 region:"south"
                 ,layout:"fit"
-                //,border:false
+                ,border:false
                 ,height:100
                 ,collapsed:true
                 ,collapseMode:"mini"
-                //	    ,autoScroll:true
                 ,split:true
             });
+
+            this.fileTreePanel.bodyStyle = "border-width:0 1px 1px 0";
 
             var panelConfig = [{
                 layout:"border"
@@ -130,14 +132,29 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
             }];
 
             this.uploadMgr = new Ext.ux.upload.Uploader({
-                url:this.swfuploaderConfig.url
-                ,swfUrl:"/apps/extplugins/static/js/Ext.ux.upload/examples/swf/swfupload.swf"
+                url:this.uploadUrl
+                ,swfUrl:"../js/Ext.ux.upload/examples/swf/swfupload.swf"
                 ,maxFiles:10
                 ,maxFileSize:100000
                 ,allowedFileTypes:"*.*"
             });
 
             this.uploadMgr.setLogFrame(this.queuePanel);
+
+            this.fileTreePanel.on({
+                scope:this
+                ,render:function() {
+                    if (this.enableUpload) {
+	                    var item = new Ext.menu.Item({
+	                        text:"Upload"
+	                        ,plugins:[this.uploadMgr]
+	                    });
+                        var menu = this.fileTreePanel.getContextMenu();
+                        menu.add("-");
+                        menu.add(item);
+                    }
+                }
+            });
 
             this.uploadMgr.on({
                 scope:this
@@ -146,7 +163,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
                     var node = this.fileTreePanel.getNodeById(this.historyCurrentId);
                     if (node.isLeaf()) node = node.parentNode;
                     var path = (node.isRoot) ? "" : this.getNodePath(node);
-                    var url = this.swfuploaderConfig.url+path;
+                    var url = this.uploadUrl+path;
                     this.uploadMgr.setUploadUrl(url);
                 }
                 ,uploadcomplete:function(uploadMgr, conn, file) {
@@ -632,18 +649,6 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
 	    path += "/" + tmpNode.attributes.text;
 	}
 	return path;
-    }
-
-    ,enableUploadSystem:function() {
-      if (this.enableUpload) {
-	var item = new Ext.menu.Item({
-	  text:"Upload"
-	  ,plugins:[this.uploadMgr]
-	});
-        var menu = this.fileTreePanel.getContextMenu();
-        menu.add("-");
-        menu.add(item);
-      }
     }
 
 });
