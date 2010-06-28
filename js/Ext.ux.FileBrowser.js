@@ -133,6 +133,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
 
             this.uploadMgr = new Ext.ux.upload.Uploader({
                 url:this.uploadUrl
+                ,path:this.path
                 ,swfUrl:this.swfUrl
                 ,maxFiles:10
                 ,maxFileSize:100000
