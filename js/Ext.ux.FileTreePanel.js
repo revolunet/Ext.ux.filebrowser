@@ -271,7 +271,6 @@ Ext.ux.FileTreePanel = Ext.extend(Ext.tree.TreePanel, {
 	,initComponent:function() {
 
 	    if (this.readOnly) this.enableDD = false;
-
 		// {{{
 		Ext.apply(this, {
 
