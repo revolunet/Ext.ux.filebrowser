@@ -3,7 +3,7 @@
 ***********************************************************************************************************************/
 
 .icon-close {
-    background: transparent url(http://lib.chewam.com/ext/resources/images/default/panel/tool-sprites.gif) no-repeat 0px 0px;
+    background: transparent url(http://lib.chewam.com/ext/resources/images/default/panel/tool-sprites.gif) no-repeat 0px 0px !important;
     height:15px !important;
     width:15px !important;
 }
