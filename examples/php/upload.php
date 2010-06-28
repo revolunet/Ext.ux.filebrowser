@@ -19,5 +19,5 @@ if (!strlen($_SERVER['HTTP_X_FILE_NAME'])) {
     $success = 'true';
 }
 
-print '{success:'.$success.'}';
+print '{success:'.$success.', request:'.json_encode($_REQUEST).'}';
 ?>
