@@ -32,7 +32,6 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
     ,browserDDGroup:null
 
     ,initComponent:function() {
-
         /*
         ** FileTreePanel
         */
@@ -386,7 +385,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
                     if (parentNode.isLoaded())
                         parentNode.appendChild(childNode);
                     else childNode.remove();
-                    this.load(this.fileTreePanel.getNodeById(this.historyCurrentId)); 
+                    this.load(this.fileTreePanel.getNodeById(this.historyCurrentId));
                }
             });
       }
