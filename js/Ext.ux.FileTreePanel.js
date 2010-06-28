@@ -928,7 +928,7 @@ Ext.ux.FileTreePanel = Ext.extend(Ext.tree.TreePanel, {
 
 		// a little bit of security: strip leading / or .
 		// full path security checking has to be implemented on server
-		path = path.replace(/^[\/\.]*/, '');
+		//path = path.replace(/^[\/\.]*/, '');
 		return path;
 	} // eo function getPath
 	// }}}

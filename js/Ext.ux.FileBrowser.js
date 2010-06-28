@@ -18,6 +18,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
     ,readOnly:false
     ,data:[]
     ,url:""
+    ,path:""
     ,historyCurrentId:false
     ,historyPreviousId:[]
     ,historyNextId:[]
@@ -27,6 +28,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
     ,fileTreePanel:false
     ,enableUpload:false
     ,uploadUrl:""
+    ,swfUrl:"../js/Ext.ux.upload/examples/swf/swfupload.swf"
     ,browserDDGroup:null
 
     ,initComponent:function() {
@@ -41,11 +43,11 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
             //,border:false
             ,bodyStyle:"border-width:0 1px 0 0"
             ,method:'post'
-            ,rootPath:''
+            ,rootPath:this.path
             ,url:this.url
             ,ddGroup:this.browserDDGroup
             ,rootText:this.rootText
-            ,cmdParams:{root:this.root}
+            //,cmdParams:{root:this.root}
             ,listeners:{
                 click:{scope:this, fn:this.treePanelClick}
                 ,dblclick:{scope:this, fn:this.treePanelDbLClick}
@@ -59,7 +61,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
                   this.load(parentNode);
                 }}
                 ,render:{scope:this, fn:function(){
-                    this.fileTreePanel.loader.baseParams.root = this.root;
+                    //this.fileTreePanel.loader.baseParams.root = this.root;
                     this.fileTreePanel.setReadOnly(this.readOnly);
                     //this.enableUploadSystem();
                 }}
@@ -68,12 +70,12 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
 	        	return false;
 	        }
         });
-
+/*
         this.fileTreePanel.loader.on("beforeload", function() {
             this.fileTreePanel.loader.baseParams.root = this.root;
             return true;
         },this);
-
+*/
         /**************************************************
          * ************************************************
          * STATUS BAR SETTINGS
@@ -133,7 +135,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
 
             this.uploadMgr = new Ext.ux.upload.Uploader({
                 url:this.uploadUrl
-                ,swfUrl:"../js/Ext.ux.upload/examples/swf/swfupload.swf"
+                ,swfUrl:this.swfUrl
                 ,maxFiles:10
                 ,maxFileSize:100000
                 ,allowedFileTypes:"*.*"
@@ -163,7 +165,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
                     var node = this.fileTreePanel.getNodeById(this.historyCurrentId);
                     if (node.isLeaf()) node = node.parentNode;
                     var path = (node.isRoot) ? "" : this.getNodePath(node);
-                    var url = this.uploadUrl+path;
+                    var url = this.path+"/"+this.uploadUrl+path;
                     this.uploadMgr.setUploadUrl(url);
                 }
                 ,uploadcomplete:function(uploadMgr, conn, file) {
@@ -514,10 +516,9 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
     }
 
     ,downloadItem:function(node) {
-      var filepath = "/apps/filebrowser?"
+      var filepath = this.path+"/"+this.url
         + "cmd=download"
         + "&file="+this.getNodePath(node)
-        + "&root="+this.root;
       window.open(filepath);
     }
 
@@ -529,11 +530,9 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
         if (new RegExp(/\w+\.*(gif|png|jpg)$/).test(node.attributes.text.toLowerCase())) {
             var path = this.getNodePath(node);
             if (path.substring(0,1)=="/") path=path.substring(1);
-            //var filepath = "/apps/filebrowser?"
             var filepath = this.url
                        + "?cmd=view"
-                       + "&file="+path
-                       + "&root="+this.root;
+                       + "&file="+this.path+"/"+path
 
             path = filepath;
 
@@ -595,10 +594,9 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
 	        }).show();
 
         } else if (!resize){
-            var filepath = "/apps/filebrowser?"
+            var filepath = this.path+"/"+this.url
                 + "cmd=download"
                 + "&file="+this.getNodePath(node)
-                + "&root="+this.root;
 	        window.open(filepath);
         }
     }
@@ -641,14 +639,14 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
     }
 
     ,getNodePath:function(node) {
-	var path = "";
-	var tab = node.getPath().split("/");
-	for (var i = 1; i < tab.length; i++) {
-	    var tmpNode = this.fileTreePanel.getNodeById(tab[i]);
-	    if (this.fileTreePanel.root.id == tmpNode.id) continue;
-	    path += "/" + tmpNode.attributes.text;
-	}
-	return path;
+        var path = "";
+        var tab = node.getPath().split("/");
+        for (var i = 1; i < tab.length; i++) {
+            var tmpNode = this.fileTreePanel.getNodeById(tab[i]);
+            if (this.fileTreePanel.root.id == tmpNode.id) continue;
+            path += "/" + tmpNode.attributes.text;
+        }
+        return path;
     }
 
 });

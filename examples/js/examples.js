@@ -11,7 +11,8 @@ Ext.onReady(function() {
         ,enableBrowser:true
         ,browserDDGroup:"DDGroup1"
         ,enableUpload:true
-        ,url:"php/getfiles.php"
+        ,path:"/dev/Ext.ux.filebrowser/examples/files"
+        ,url:"/dev/Ext.ux.filebrowser/examples/php/getfiles.php"
         ,uploadUrl:"/dev/Ext.ux.filebrowser/examples/php/upload.php"
     });
 
@@ -21,7 +22,8 @@ Ext.onReady(function() {
         ,height:200
         ,width:200
         ,readOnly:false
-        ,url:"php/getfiles.php"
+        ,path:"/dev/Ext.ux.filebrowser/examples/php"
+        ,url:"getfiles.php"
     });
 
     var filebrowser3 = new Ext.ux.FileBrowser({
@@ -29,7 +31,8 @@ Ext.onReady(function() {
         ,rootText:"Home"
         ,height:200
         ,width:200
-        ,url:"php/getfiles.php"
+        ,path:"/dev/Ext.ux.filebrowser/examples/php"
+        ,url:"getfiles.php"
     });
 
 });

@@ -7,16 +7,17 @@ $xaction = $_REQUEST['cmd'];
 if ($xaction == 'get') {
   $index = 0;
   $files = array();
-  $hd = opendir('../files/'.$_REQUEST['path']);
+  $_REQUEST['path'] = '/Users/goldledoigt/www'.$_REQUEST['path'];
+  $hd = opendir($_REQUEST['path']);
   while ($file = readdir($hd)) {
     if ($file != '.' and $file != '..') {
       $files[$index]['text'] = $file;
       $files[$index]['lastmod'] = 1272391250000;
-      if (!is_dir('../files/'.$_REQUEST['path'].'/'.$file)) {
+      if (!is_dir($_REQUEST['path'].'/'.$file)) {
         $files[$index]['leaf'] = true;
-        $files[$index]['size'] = filesize('../files/'.$_REQUEST['path'].'/'.$file);   
+        $files[$index]['size'] = filesize($_REQUEST['path'].'/'.$file);
       }
-      $files[$index]['iconCls'] = !is_dir('../files/'.$_REQUEST['path'].'/'.$file) ? "icon-file-".strtolower(substr(strrchr($file, '.'), 1)) : "";
+      $files[$index]['iconCls'] = !is_dir($_REQUEST['path'].'/'.$file) ? "icon-file-".strtolower(substr(strrchr($file, '.'), 1)) : "";
       $index++;
     }
   }
@@ -25,26 +26,30 @@ if ($xaction == 'get') {
 }
 
 else if ($xaction == 'newdir') {
-    mkdir('../files/'.$_REQUEST['dir']);
+    $_REQUEST['dir'] = '/Users/goldledoigt/www'.$_REQUEST['dir'];
+    mkdir($_REQUEST['dir']);
     print '{success:true}';
 }
 
 else if ($xaction == 'rename') {
-    rename('../files/'.$_REQUEST['oldname'], '../files/'.$_REQUEST['newname']);
+    $_REQUEST['oldname'] = '/Users/goldledoigt/www'.$_REQUEST['oldname'];
+    $_REQUEST['newname'] = '/Users/goldledoigt/www'.$_REQUEST['newname'];
+    rename($_REQUEST['oldname'], $_REQUEST['newname']);
     print '{success:true}';
 }
 
 else if ($xaction == 'delete') {
-    if (is_dir('../files/'.$_REQUEST['file']))
-        rmdir('../files/'.$_REQUEST['file']);
-    else if (file_exists('../files/'.$_REQUEST['file']))
-        unlink('../files/'.$_REQUEST['file']);
+    $_REQUEST['file'] = '/Users/goldledoigt/www'.$_REQUEST['file'];
+    if (is_dir($_REQUEST['file']))
+        rmdir($_REQUEST['file']);
+    else if (file_exists($_REQUEST['file']))
+        unlink($_REQUEST['file']);
     print '{success:true}';
 }
 
 else if ($xaction == 'view') {
-
-    $hd = fopen('../files/'.$_REQUEST['file'], "rb");
+    $_REQUEST['file'] = '/Users/goldledoigt/www'.$_REQUEST['file'];
+    $hd = fopen($_REQUEST['file'], "rb");
     while (!feof($hd)) {
         $file .= fread($hd, 1024);
     }
