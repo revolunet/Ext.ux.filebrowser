@@ -161,14 +161,10 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
                 scope:this
                 ,beforeupload:function() {
                     this.queuePanel.expand(false);
-                    /*
                     var node = this.fileTreePanel.getNodeById(this.historyCurrentId);
                     if (node.isLeaf()) node = node.parentNode;
                     var path = (node.isRoot) ? "" : this.getNodePath(node);
-                    var url = this.uploadUrl+path;
-                    console.log("URL", url);
-                    this.uploadMgr.setUploadUrl(url);
-                    */
+                    this.uploadMgr.setPath(this.path+"/"+path);
                 }
                 ,uploadcomplete:function(uploadMgr, conn, file) {
                     var node = this.fileTreePanel.getNodeById(this.historyCurrentId);
