@@ -165,7 +165,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
                     var node = this.fileTreePanel.getNodeById(this.historyCurrentId);
                     if (node.isLeaf()) node = node.parentNode;
                     var path = (node.isRoot) ? "" : this.getNodePath(node);
-                    var url = this.path+"/"+this.uploadUrl+path;
+                    var url = this.uploadUrl+path;
                     this.uploadMgr.setUploadUrl(url);
                 }
                 ,uploadcomplete:function(uploadMgr, conn, file) {
