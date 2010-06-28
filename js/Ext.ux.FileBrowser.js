@@ -53,13 +53,11 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
                 ,dblclick:{scope:this, fn:this.treePanelDbLClick}
                 ,startdrag:{scope:this, fn:this.startDragNode || false}
                 ,load:{scope:this, fn:this.treePanelLoad}
+                ,"delete":{scope:this, fn:this.reload}
                 ,download:{scope:this, fn:this.downloadItem}
                 ,rename:{scope:this, fn:this.renameItem}
                 ,nodemove:{scope:this, fn:this.renameItem}
-                ,newdir:{scope:this, fn:function(treepanel, node){
-                  var parentNode = this.fileTreePanel.getNodeById(this.historyCurrentId);
-                  this.load(parentNode);
-                }}
+                ,newdir:{scope:this, fn:this.reload}
                 ,render:{scope:this, fn:function(){
                     //this.fileTreePanel.loader.baseParams.root = this.root;
                     this.fileTreePanel.setReadOnly(this.readOnly);
@@ -466,6 +464,7 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
 
     ,load:function(node) {
       if (this.enableBrowser) {
+
         this.dataViewStore.removeAll();
         this.clearTmpRecords();
         node.eachChild(this.setdataViewElement, this);
@@ -474,8 +473,12 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
     }
 
     ,reload:function() {
+        var parentNode = this.fileTreePanel.getNodeById(this.historyCurrentId);
+        this.load(parentNode);
+        /*
         this.dataViewStore.removeAll();
         this.dataViewStore.add(this.tmpRecords);
+        */
     }
 
     ,setDetails:function(node) {
@@ -509,7 +512,6 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
                 var currentNode = this.fileTreePanel.getNodeById(this.historyCurrentId),
                 currentPath = this.getNodePath(currentNode),
                 newPath = this.getNodePath(node);
-                console.log("PATH", currentNode, currentPath, "***", newPath, "$$$", newname);
             }
 */
         }

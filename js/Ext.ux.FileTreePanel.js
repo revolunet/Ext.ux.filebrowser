@@ -616,10 +616,10 @@ Ext.ux.FileTreePanel = Ext.extend(Ext.tree.TreePanel, {
 	        if(true === o.success) {
 	            switch(options.params.cmd) {
 	                case 'delete':
+                        options.node.parentNode.removeChild(options.node);
 		                if(true !== this.eventsSuspended) {
 		                    this.fireEvent('delete', this, this.getPath(options.node));
 		                }
-		                options.node.parentNode.removeChild(options.node);
                     break;
 
 	                case 'newdir':
