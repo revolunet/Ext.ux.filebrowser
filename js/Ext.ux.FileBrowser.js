@@ -625,7 +625,6 @@ Ext.ux.FileBrowser = Ext.extend(Ext.Panel, {
 
     ,startDragNode:function(treePanel, node) {
 	this.fireEvent("startDradElement");
-	node.attributes.root = treePanel.cmdParams.root;
 	node.attributes.path = this.getNodePath(node);
     }
 
