@@ -1,42 +1,7 @@
-/*
-div.side-box {
-background:transparent url(../img/side-box.png) no-repeat scroll 0 0;
-margin-bottom:20px;
-padding-top:9px;
-width:200px;
-}
 
-div.side-box-inner {
-background:transparent url(../img/side-box.png) no-repeat scroll 0 bottom;
-font-size:12px;
-padding:0 15px 5px;
-}
+/* ICONS
+***********************************************************************************************************************/
 
-div.side-box-inner ul{
-list-style-image:url(../img/c-sep-l.gif);
-margin-left:15px;
-margin-bottom: 10px;
-}
-
-div.side-box-inner ul li {
-font-family: verdana;
-font-size: 11px;
-color:#0464BB;
-margin-bottom: 3px;
-}
-
-div.side-box-inner h5 {
-background:transparent none repeat scroll 0 0 !important;
-background-color:#F1F1F1;
-color:#789030;
-font-family:"Trebuchet MS",Tahoma,arial,sans-serif;
-font-size:11px;
-font-weight:bold;
-line-height:20px;
-padding:3px;
-text-transform:uppercase;
-}
-*/
 .icon-close {
   background-position:0px 0px !important;
   background-image: url(http://lib.chewam.com/ext/resources/images/default/panel/tool-sprites.gif) !important;
@@ -201,22 +166,7 @@ background-image:url(../img/folder-open_16.png) ;
 .x-tree-node-leaf .x-tree-node-icon, .row-file {
 background-image:url(../img/file_16.png);
 }
-/*
-.browser-view .x-splitbar-h {
-  border-left:1px solid #8DB2E3;
-  border-right:1px solid #8DB2E3;
-  background-color:#DFE8F6;
-}
 
-.x-layout-split-south, .x-layout-cmini-south {
-  border-top:1px solid #8DB2E3;
-  background-color:#DFE8F6;
-}
-
-.x-layout-split-south {
-  border-bottom:1px solid #8DB2E3;
-}
-*/
 .thumb .folder {
     background-image:url(../img/folder_64.png) !important;
     background-position:50% -8px !important;
@@ -225,7 +175,6 @@ background-image:url(../img/file_16.png);
 .thumb .file {
 background-image:url(../img/file_48.png) !important;
 }
-
 
 .row-file, .row-folder {
   padding-left:20px;
@@ -253,3 +202,67 @@ background-image:url(../img/file_48.png) !important;
 .x-dd-drag-proxy {
     background-color:#FFFFFF;
 }
+
+/* DATAVIEW
+***********************************************************************************************************************/
+
+
+.browser-view .x-panel-body{
+	background: white;
+	font: 11px Arial, Helvetica, sans-serif;
+}
+.browser-view .thumb{
+	background: #FFFFFF;
+	padding: 3px;
+}
+.browser-view .thumb .item {
+    width:70px;
+    height:51px;
+    background-repeat: no-repeat;
+    background-color: #FFFFFF;
+    background-image:url(../img/file_48.png);
+    border:1px solid #ffffff;
+    background-position:50% 2px;
+}
+.browser-view .thumb img{
+	height: 60px;
+	width: 80px;
+}
+.browser-view .thumb-wrap{
+	float: left;
+	margin: 4px;
+	margin-right: 0;
+    border:1px solid white;
+	xpadding: 5px;
+}
+.browser-view .thumb-wrap span{
+	display: block;
+	overflow: hidden;
+	text-align: center;
+    font:13px arial,tahoma,helvetica,sans-serif;
+}
+
+.browser-view .x-view-over{
+    border:1px solid #dddddd;
+    background: #efefef url("http://lib.chewam.net/ext/resources/images/default/grid/row-over.gif") repeat-x left top;
+	xpadding: 4px;
+}
+
+.browser-view .x-view-selected{
+	background: #eff5fb url("../img/selected.gif") no-repeat right bottom;
+	border:1px solid #99bbe8;
+	xpadding: 4px;
+}
+.browser-view .x-view-selected .thumb, .browser-view .x-view-over .thumb {
+	background:transparent;
+}
+
+.browser-view .loading-indicator {
+	font-size:11px;
+	background-image:url("http://lib.chewam.net/ext/resources/images/default/grid/loading.gif");
+	background-repeat: no-repeat;
+	background-position: left;
+	padding-left:20px;
+	margin:10px;
+}
+
