@@ -14,7 +14,7 @@ Ext.ux.dataViewBrowser = Ext.extend(Ext.DataView, {
             '<div class="thumb">',
             '<div class="item {[values.leaf  ? values.iconCls ? values.iconCls+"-64" : "file" : "folder"]}"></div>',
             '</div>',
-            '<span class="x-editable">{[fm.ellipsis(values.text, 12)]}</span></div>',
+            '<span class="x-editable" ext:qtip="{values.text}">{[fm.ellipsis(values.text, 12)]}</span></div>',
             '</tpl>',
             '<div class="x-clear"></div>'
         );

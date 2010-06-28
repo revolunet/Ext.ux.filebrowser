@@ -22,8 +22,8 @@ Ext.onReady(function() {
         ,height:200
         ,width:200
         ,readOnly:false
-        ,path:"/dev/Ext.ux.filebrowser/examples/php"
-        ,url:"getfiles.php"
+        ,path:"/dev/Ext.ux.filebrowser/examples/files"
+        ,url:"/dev/Ext.ux.filebrowser/examples/php/getfiles.php"
     });
 
     var filebrowser3 = new Ext.ux.FileBrowser({
@@ -31,8 +31,7 @@ Ext.onReady(function() {
         ,rootText:"Home"
         ,height:200
         ,width:200
-        ,path:"/dev/Ext.ux.filebrowser/examples/php"
-        ,url:"getfiles.php"
+        ,url:"/dev/Ext.ux.filebrowser/examples/php/getfiles.php"
     });
 
 });
