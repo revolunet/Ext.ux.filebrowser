@@ -1461,7 +1461,7 @@ Ext.ux.FileTreePanel = Ext.extend(Ext.tree.TreePanel, {
 		return this;
 	} // of function setUploadDisabled
 	// }}}
-	// {{{
+	// {{{ 
 	/**
 	 * adjusts context menu depending on many things and shows it
 	 * @private
@@ -1486,7 +1486,7 @@ Ext.ux.FileTreePanel = Ext.extend(Ext.tree.TreePanel, {
 
 		var menu = this.getContextMenu();
 		menu.node = node;
-        menu.setItemDisabled("open-dwnld", false);
+        menu.setItemDisabled("open-dwnld", (node.isLeaf()?false:true));
         menu.setItemDisabled("rename", false);
         menu.setItemDisabled("delete", false);
 

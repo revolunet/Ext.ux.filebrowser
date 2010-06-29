@@ -44,6 +44,7 @@ Ext.ux.FileTreeMenu = function(config) {
         items:[{
             text:this.openDwnldText
             ,iconCls:this.openDwnldIconCls
+            ,disabled:config.overView
             ,cmd:'open-dwnld'
         }
         ,new Ext.menu.Separator({cmd:'sep-collapse'})
@@ -236,7 +237,7 @@ Ext.extend(Ext.ux.FileTreeMenu, Ext.menu.Menu, {
 	 *		- collapse
 	 *		- sep-collapse (for separator after collapse item)
 	 *		- rename
-	 *		- delete
+	 *		- delete 
 	 *		- newdir
 	 *		- sep-upload (for separator before upload panel)
 	 *		- upload (for upload file item that does nothing)
