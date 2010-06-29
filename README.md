@@ -1,7 +1,7 @@
 Ext.ux.filebrowser : the ExtJs explorer widget
 ===
 
-Based on [Saki's FileTreePanel][1] then improved
+Based on [Saki's FileTreePanel][1] then improved by [revolunet team][11]
 
  * drag and drop support
  * download, rename, suppress, create new folders
@@ -17,11 +17,20 @@ Authors :
   - [Julien Bouquillon][6]
   - [Saki][7]
 
+![screenshot icon view][8]
+
+![screenshot list view][9]
+
+![screenshot image viewer][10]
 
   [1]: http://filetree.extjs.eu/
   [2]: http://github.com/revolunet/Ext.ux.upload
   [3]: http://swfupload.org
   [4]: http://fr.wikipedia.org/wiki/Licence_BSD
-  [5]: mailto:gary@chewam.com
-  [6]: mailto:julien@bouquillon.com
+  [5]: mailto:gary@revolunet.com
+  [6]: mailto:julien@revolunet.com
   [7]: http://filetree.extjs.eu/
+  [8]: http://github.com/revolunet/Ext.ux.filebrowser/raw/master/examples/img/shot1_400.jpg
+  [9]: http://github.com/revolunet/Ext.ux.filebrowser/raw/master/examples/img/shot2_400.jpg
+  [10]: http://github.com/revolunet/Ext.ux.filebrowser/raw/master/examples/img/shot3_400.jpg
+  [11]: http://www.revolunet.com
