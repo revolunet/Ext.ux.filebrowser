@@ -30,7 +30,7 @@ Authors :
   [5]: mailto:gary@revolunet.com
   [6]: mailto:julien@revolunet.com
   [7]: http://filetree.extjs.eu/
-  [8]: http://github.com/revolunet/Ext.ux.filebrowser/raw/master/examples/img/shot1_400.jpg
-  [9]: http://github.com/revolunet/Ext.ux.filebrowser/raw/master/examples/img/shot2_400.jpg
-  [10]: http://github.com/revolunet/Ext.ux.filebrowser/raw/master/examples/img/shot3_400.jpg
+  [8]: https://github.com/revolunet/Ext.ux.filebrowser/raw/master/example/img/shot1_400.jpg
+  [9]: https://github.com/revolunet/Ext.ux.filebrowser/raw/master/example/img/shot2_400.jpg
+  [10]: https://github.com/revolunet/Ext.ux.filebrowser/raw/master/example/img/shot3_400.jpg
   [11]: http://www.revolunet.com
