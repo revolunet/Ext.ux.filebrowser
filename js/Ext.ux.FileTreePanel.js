@@ -685,7 +685,9 @@ Ext.ux.FileTreePanel = Ext.extend(Ext.tree.TreePanel, {
 
 		// process Ajax failure
 		else {
-			this.showError(o.msg || response.responseText);
+			this.showError(o && o.msg || "Erreur");
+            //response.responseText
+            //alert(response.responseText);
 		}
 	} // eo function cmdCallback
 	// }}}
@@ -1178,7 +1180,7 @@ Ext.ux.FileTreePanel = Ext.extend(Ext.tree.TreePanel, {
 			,callback:this.cmdCallback
 			,params:{
 				 cmd:'newdir'
-				,dir:path
+				,path:path
 			}
 		};
 	    this.sendCmd(options);
