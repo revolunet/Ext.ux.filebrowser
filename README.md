@@ -1,6 +1,8 @@
 Ext.ux.filebrowser : the ExtJs explorer widget
 ===
 
+Working demo here : [http://filebrowser.demo.revolunet.com][12]
+
 Based on [Saki's FileTreePanel][1] then improved by [revolunet team][11]
 
  * drag and drop support
@@ -34,3 +36,4 @@ Authors :
   [9]: https://github.com/revolunet/Ext.ux.filebrowser/raw/master/example/img/shot2_400.jpg
   [10]: https://github.com/revolunet/Ext.ux.filebrowser/raw/master/example/img/shot3_400.jpg
   [11]: http://www.revolunet.com
+  [12]: http://filebrowser.demo.revolunet.com
