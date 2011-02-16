@@ -9,7 +9,8 @@ Based on [Saki's FileTreePanel][1] then improved by [revolunet team][11]
  * download, rename, suppress, create new folders
  * integration with [Ext.ux.uploader][2] for html5 drag/drop + [SWFupload][3] fallback
  * file type icons
- * backend independance
+ * backend independance (see [PHP][13] and [django][14] backends)
+
  
 released under [BSD licence][4].
 
@@ -37,3 +38,5 @@ Authors :
   [10]: https://github.com/revolunet/Ext.ux.filebrowser/raw/master/example/img/shot3_400.jpg
   [11]: http://www.revolunet.com
   [12]: http://filebrowser.demo.revolunet.com
+  [13]: https://github.com/revolunet/filebrowser-php-backend
+  [14]: https://github.com/revolunet/django-extjs-filebrowser
